@@ -9,11 +9,12 @@ type University struct {
 }
 
 type Country struct {
-	CountryName string            `json:"name,omitempty"`
-	Languages   map[string]string `json:"languages,omitempty"`
-	IsoCode     string            `json:"isocode,omitempty"`
-	LocationMap string            `json:"maps,omitempty"`
-	Neighbours  []string          `json:"neighbors,omitempty"`
+	CountryName struct {
+		Name string `json:"common,omitempty"`
+	} `json:"name"`
+	IsoCode    string   `json:"cca2,omitempty"`
+	Neighbours []string `json:"borders,omitempty"`
+	AdditionCountryInformation
 }
 
 type Diagnostics struct {
