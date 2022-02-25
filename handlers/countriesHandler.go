@@ -1,12 +1,10 @@
 package handler
 
 import (
-	//"encoding/json"
 	"encoding/json"
 	"log"
 	"net/http"
 	"regexp"
-
 	"strconv"
 	"strings"
 )
@@ -21,6 +19,7 @@ func CountriesHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//This method encodes the Country json response through fetching information from external APIs
 func getCountry(w http.ResponseWriter, r *http.Request) {
 	//splitting the url into different parts
 	parts := strings.Split(r.URL.Path, "/")
@@ -31,12 +30,7 @@ func getCountry(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//find country first, then:
-	//find all universities consisting of the given name, then
-	//select only the universities that are in the correct countries and its neighbors
-
 	//replacing empty space with %20
-
 	var countryName = strings.ReplaceAll(parts[4], " ", "%20")
 	var universityName = strings.ReplaceAll(parts[5], " ", "%20")
 
@@ -71,18 +65,15 @@ func getCountry(w http.ResponseWriter, r *http.Request) {
 			if len(universityNeighbour) > 0 {
 				for j := 0; j < limitInt; j++ {
 					universities = append(universities, universityNeighbour[j])
-					log.Println(universityNeighbour[j].Name)
 				}
 			}
 		}
-
 	} else {
 		for i := range countryInfo {
 			var universityNeighbour = getUniversityByNameAndCountry(universityName, countryInfo[i].CountryName.Name, w)
 			if len(universityNeighbour) > 0 {
 				for j := 0; j < len(universityNeighbour); j++ {
 					universities = append(universities, universityNeighbour[j])
-					log.Println(universityNeighbour[j].Name)
 				}
 			}
 		}
@@ -101,7 +92,6 @@ func getCountry(w http.ResponseWriter, r *http.Request) {
 	if err := json.NewEncoder(w).Encode(&universities); err != nil {
 		log.Println("ERROR encoding JSON", err)
 	}
-
 }
 
 //Method that performs a GET action to find information about a university given
@@ -126,6 +116,8 @@ func getCountryInfo(countryName string, w http.ResponseWriter, searchPath string
 	return country
 }
 
+//This method finds additional information about a country that is not given by the initial university name search
+//returns a slice of the struct AdditionCountryInformation
 func getAdditionalCountryInformation(countryName string, w http.ResponseWriter) []AdditionCountryInformation {
 	resp, err := http.Get("https://restcountries.com/v3.1/name/%7B" + countryName + "%7D")
 	if err != nil {

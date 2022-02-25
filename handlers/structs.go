@@ -18,7 +18,10 @@ type Country struct {
 }
 
 type Diagnostics struct {
-	Version string `json:"version,omitempty"`
+	UniversityStatus int    `json:"universitiesapi"`
+	CountryStatus    int    `json:"countriesapi"`
+	Version          string `json:"version"`
+	UpTime           int    `json:"uptime"`
 }
 
 type AdditionCountryInformation struct {

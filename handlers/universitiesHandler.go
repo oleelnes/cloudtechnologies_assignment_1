@@ -14,9 +14,10 @@ func UniversitiesHandler(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, "Method not supported -- only GET is supported", http.StatusNotImplemented)
 	}
-
 }
 
+//Method that is responsible for encoding University json entries through
+//fetching information from external APIs
 func getUniversity(w http.ResponseWriter, r *http.Request) {
 	//splitting the url into different parts
 	parts := strings.Split(r.URL.Path, "/")
@@ -77,6 +78,8 @@ func getUniversityInformation(universityName string, w http.ResponseWriter) []Un
 	return universities
 }
 
+//Method that finds universities through a name and country search
+//returns a slice of struct University
 func getUniversityByNameAndCountry(universityName string, countryName string, w http.ResponseWriter) []University {
 	resp, err := http.Get("http://universities.hipolabs.com/search?name=" + universityName + "&country=" + countryName)
 	if err != nil {

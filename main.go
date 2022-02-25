@@ -1,17 +1,13 @@
 package main
 
 import (
-	"os"
-	handler "university-search/handlers"
-
-	//"university-search/structs"
 	"log"
 	"net/http"
+	"os"
+	handler "university-search/handlers"
 )
 
-/*
-	This is the main function of the app
-*/
+//The app's main function
 func main() {
 
 	port := os.Getenv("PORT")
@@ -23,6 +19,7 @@ func main() {
 	http.HandleFunc(handler.DEFAULT_PATH, handler.EmptyHandler)
 	http.HandleFunc(handler.UNI_INFO_PATH, handler.UniversitiesHandler)
 	http.HandleFunc(handler.COUNTRIES_PATH, handler.CountriesHandler)
+	http.HandleFunc(handler.DIAGNOSTICS_PATH, handler.DiagHandler)
 
 	log.Println("Starting server on port " + port + " ...")
 	log.Fatal(http.ListenAndServe(":"+port, nil))
