@@ -1,10 +1,10 @@
 package main
 
 import (
+	handler "assignment-1/handlers"
 	"log"
 	"net/http"
 	"os"
-	handler "university-search/handlers"
 )
 
 //The app's main function
