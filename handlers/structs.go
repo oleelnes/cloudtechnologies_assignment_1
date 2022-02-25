@@ -8,6 +8,15 @@ type University struct {
 	AdditionCountryInformation
 }
 
+type UniversityReply struct {
+	Name        string            `json:"name"`
+	CountryName string            `json:"country"`
+	IsoCode     string            `json:"isocode"`
+	WebPages    []string          `json:"webpages"`
+	Languages   map[string]string `json:"languages"`
+	LocationMap string            `json:"map"`
+}
+
 type Country struct {
 	CountryName struct {
 		Name string `json:"common,omitempty"`

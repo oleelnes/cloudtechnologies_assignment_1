@@ -46,10 +46,26 @@ func getUniversity(w http.ResponseWriter, r *http.Request) {
 		universities[i].AdditionCountryInformation.LocationMap.OpenStreetMaps = additionalCountryInformation[0].LocationMap.OpenStreetMaps
 	}
 
-	//setting the format for the GET response
 	json.Marshal(universities)
 	w.Header().Add("content-type", "application/json")
-	if err := json.NewEncoder(w).Encode(&universities); err != nil {
+
+	var universitiesReply []UniversityReply
+	for i := range universities {
+		var universityReply = UniversityReply{
+			Name:        universities[i].Name,
+			CountryName: universities[i].CountryName,
+			IsoCode:     universities[i].IsoCode,
+			WebPages:    universities[i].WebPages,
+			Languages:   universities[i].Languages,
+			LocationMap: universities[i].LocationMap.OpenStreetMaps,
+		}
+		universitiesReply = append(universitiesReply, universityReply)
+	}
+
+	//setting the format for the GET response
+	json.Marshal(universitiesReply)
+	w.Header().Add("content-type", "application/json")
+	if err := json.NewEncoder(w).Encode(&universitiesReply); err != nil {
 		log.Println("ERROR encoding JSON", err)
 	}
 
